@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Glykolýza – doplňovačka (celá dráha)</title>
+<style>
+  body{font-family:Arial,system-ui;background:#f5f5f5;padding:20px;display:flex;justify-content:center;}
+  .game{background:white;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15);width:360px;}
+  h2{text-align:center;margin-top:0;}
+  h3{margin:10px 0 5px;font-size:14px;text-align:center;}
+
+  .step{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-bottom:15px;
+    position:relative;
+  }
+
+  .arrow{
+    width:2px;
+    height:30px;
+    background:black;
+    margin:5px 0;
+  }
+
+  .box{
+    padding:5px 10px;
+    background:#fff;
+    border:1px solid #aaa;
+    border-radius:6px;
+    font-weight:bold;
+    text-align:center;
+  }
+
+  .slot{
+    background:#ffd28c;
+    padding:4px 6px;
+    border-radius:6px;
+    margin-top:6px;
+    cursor:pointer;
+    font-size:14px;
+    min-width:160px;
+    text-align:center;
+    border:2px solid #ffb04a;
+    transition:0.2s;
+  }
+
+  .slot.correct{
+    background:#c8ffcd;
+    border-color:#2e9d34;
+  }
+
+  .slot.wrong{
+    background:#ffb6b6;
+    border-color:#bb2b2b;
+  }
+
+  .menu{
+    display:none;
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    top:40px;
+    background:white;
+    border:1px solid #ccc;
+    border-radius:8px;
+    padding:5px;
+    box-shadow:0 3px 6px rgba(0,0,0,.2);
+    z-index:50;
+    max-height:200px;
+    overflow-y:auto;
+  }
+
+  .menu div{
+    padding:6px 10px;
+    cursor:pointer;
+    font-size:13px;
+  }
+
+  .menu div:hover{
+    background:#eee;
+  }
+</style>
+</head>
+<body>
+
+<div class="game">
+  <h2>Glykolýza – doplňovačka</h2>
+  <h3>1. fáze</h3>
+
+  <!-- 1. Glukóza -> G6P -->
+  <div class="step">
+    <div class="box">glukóza</div>
+    <div class="slot" data-answer="hexokináza">Klikni pro enzym</div>
+    <div class="menu">
+      <div>hexokináza</div>
+      <div>fosfoglukózová izomeráza</div>
+      <div>fosfofruktokináza</div>
+      <div>aldoláza</div>
+      <div>Triosefosfát isomeráza</div>
+      <div>glyceraldehyd-3-fosfát dehydrogenáza</div>
+      <div>fosfoglycerátkináza</div>
+      <div>fosfoglycerátmutáza</div>
+      <div>enoláza</div>
+      <div>pyruvátkináza</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="box">glukóza-6-fosfát</div>
+  </div>
+
+  <!-- 2. G6P -> F6P -->
+  <div class="step">
+    <div class="slot" data-answer="fosfoglukózová izomeráza">Klikni pro enzym</div>
+    <div class="menu">
+      <div>hexokináza</div>
+      <div>fosfoglukózová izomeráza</div>
+      <div>fosfofruktokináza</div>
+      <div>aldoláza</div>
+      <div>Triosefosfát isomeráza</div>
+      <div>glyceraldehyd-3-fosfát dehydrogenáza</div>
+      <div>fosfoglycerátkináza</div>
+      <div>fosfoglycerátmutáza</div>
+      <div>enoláza</div>
+      <div>pyruvátkináza</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="box">fruktóza-6-fosfát</div>
+  </div>
+
+  <!-- 3. F6P -> F1,6BP -->
+  <div class="step">
+    <div class="slot" data-answer="fosfofruktokináza">Klikni pro enzym</div>
+    <div class="menu">
+      <div>hexokináza</div>
+      <div>fosfoglukózová izomeráza</div>
+      <div>fosfofruktokináza</div>
+      <div>aldoláza</div>
+      <div>Triosefosfát isomeráza</div>
+      <div>glyceraldehyd-3-fosfát dehydrogenáza</div>
+      <div>fosfoglycerátkináza</div>
+      <div>fosfoglycerátmutáza</div>
+      <div>enoláza</div>
+      <div>pyruvátkináza</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="box">fruktóza-1,6-bisfosfát</div>
+  </div>
+
+  <!-- 4. F1,6BP -> DHAP + G3P -->
+  <div class="step">
+    <div class="slot" data-answer="aldoláza">Klikni pro enzym</div>
+    <div class="menu">
+      <div>hexokináza</div>
+      <div>fosfoglukózová izomeráza</div>
+      <div>fosfofruktokináza</div>
+      <div>aldoláza</div>
+      <div>Triosefosfát isomeráza</div>
+      <div>glyceraldehyd-3-fosfát dehydrogenáza</div>
+      <div>fosfoglycerátkináza</div>
+      <div>fosfoglycerátmutáza</div>
+      <div>enoláza</div>
+      <div>pyruvátkináza</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="box">dihydroxyacetonfosfát + glyceraldehyd-3-fosfát</div>
+  </div>
+
+  <h3>2. fáze</h3>
+
+  <!-- 5. DHAP <-> G3P -->
+  <div class="step">
+    <div class="slot" data-answer="Triosefosfát isomeráza">Klikni pro enzym</div>
+    <div class="menu">
+      <div>hexokináza</div>
+      <div>fosfoglukózová izomeráza</div>
+      <div>fosfofruktokináza</div>
+      <div>aldoláza</div>
+      <div>Triosefosfát isomeráza</div>
+      <div>glyceraldehyd-3-fosfát dehydrogenáza</div>
+      <div>fosfoglycerátkináza</div>
+      <div>fosfoglycerátmutáza</div>
+      <div>enoláza</div>
+      <div>pyruvátkináza</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="box">glyceraldehyd-3-fosfát</div>
+  </div>
+
+  <!-- 6. G3P -> 1,3-BPG -->
+  <div class="step">
+    <div class="slot" data-answer="glyceraldehyd-3-fosfát dehydrogenáza">Klikni pro enzym</div>
+    <div class="menu">
+      <div>hexokináza</div>
+      <div>fosfoglukózová izomeráza</div>
+      <div>fosfofruktokináza</div>
+      <div>aldoláza</div>
+      <div>Triosefosfát isomeráza</div>
+      <div>glyceraldehyd-3-fosfát dehydrogenáza</div>
+      <div>fosfoglycerátkináza</div>
+      <div>fosfoglycerátmutáza</div>
+      <div>enoláza</div>
+      <div>pyruvátkináza</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="box">1,3-bisfosfoglycerát</div>
+  </div>
+
+  <!-- 7. 1,3-BPG -> 3-PG -->
+  <div class="step">
+    <div class="slot" data-answer="fosfoglycerátkináza">Klikni pro enzym</div>
+    <div class="menu">
+      <div>hexokináza</div>
+      <div>fosfoglukózová izomeráza</div>
+      <div>fosfofruktokináza</div>
+      <div>aldoláza</div>
+      <div>Triosefosfát isomeráza</div>
+      <div>glyceraldehyd-3-fosfát dehydrogenáza</div>
+      <div>fosfoglycerátkináza</div>
+      <div>fosfoglycerátmutáza</div>
+      <div>enoláza</div>
+      <div>pyruvátkináza</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="box">3-fosfoglycerát</div>
+  </div>
+
+  <!-- 8. 3-PG -> 2-PG -->
+  <div class="step">
+    <div class="slot" data-answer="fosfoglycerátmutáza">Klikni pro enzym</div>
+    <div class="menu">
+      <div>hexokináza</div>
+      <div>fosfoglukózová izomeráza</div>
+      <div>fosfofruktokináza</div>
+      <div>aldoláza</div>
+      <div>Triosefosfát isomeráza</div>
+      <div>glyceraldehyd-3-fosfát dehydrogenáza</div>
+      <div>fosfoglycerátkináza</div>
+      <div>fosfoglycerátmutáza</div>
+      <div>enoláza</div>
+      <div>pyruvátkináza</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="box">2-fosfoglycerát</div>
+  </div>
+
+  <!-- 9. 2-PG -> PEP -->
+  <div class="step">
+    <div class="slot" data-answer="enoláza">Klikni pro enzym</div>
+    <div class="menu">
+      <div>hexokináza</div>
+      <div>fosfoglukózová izomeráza</div>
+      <div>fosfofruktokináza</div>
+      <div>aldoláza</div>
+      <div>Triosefosfát isomeráza</div>
+      <div>glyceraldehyd-3-fosfát dehydrogenáza</div>
+      <div>fosfoglycerátkináza</div>
+      <div>fosfoglycerátmutáza</div>
+      <div>enoláza</div>
+      <div>pyruvátkináza</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="box">fosfoenolpyruvát</div>
+  </div>
+
+  <!-- 10. PEP -> pyruvát -->
+  <div class="step">
+    <div class="slot" data-answer="pyruvátkináza">Klikni pro enzym</div>
+    <div class="menu">
+      <div>hexokináza</div>
+      <div>fosfoglukózová izomeráza</div>
+      <div>fosfofruktokináza</div>
+      <div>aldoláza</div>
+      <div>Triosefosfát isomeráza</div>
+      <div>glyceraldehyd-3-fosfát dehydrogenáza</div>
+      <div>fosfoglycerátkináza</div>
+      <div>fosfoglycerátmutáza</div>
+      <div>enoláza</div>
+      <div>pyruvátkináza</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="box">pyruvát</div>
+  </div>
+</div>
+
+<script>
+const slots = document.querySelectorAll('.slot');
+
+slots.forEach(slot=>{
+  const menu = slot.parentElement.querySelector('.menu');
+
+  // klik na oranžové políčko
+  slot.addEventListener('click', ()=>{
+    document.querySelectorAll('.menu').forEach(m=>{ if(m!==menu) m.style.display='none'; });
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // výběr enzymu
+  menu.querySelectorAll('div').forEach(option=>{
+    option.addEventListener('click', ()=>{
+      const chosen = option.textContent.trim();
+      const correct = slot.dataset.answer;
+
+      if(chosen === correct){
+        slot.textContent = chosen;
+        slot.classList.remove('wrong');
+        slot.classList.add('correct');
+      }else{
+        slot.classList.remove('correct');
+        slot.classList.add('wrong');
+      }
+      menu.style.display = 'none';
+    });
+  });
+});
+
+// klik mimo menu = zavřít vše
+document.addEventListener('click', e=>{
+  if(!e.target.classList.contains('slot') && !e.target.closest('.menu')){
+    document.querySelectorAll('.menu').forEach(m=>m.style.display='none');
+  }
+}, true);
+</script>
+
+</body>
+</html>
