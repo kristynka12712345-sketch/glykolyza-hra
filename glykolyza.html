@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Spojo­vačka – glykolýza</title>
+<style>
+  body {font-family: system-ui, sans-serif;background:#f5f5f5;display:flex;justify-content:center;padding:20px;}
+  .game {position:relative;background:white;padding:20px 40px;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.15);display:flex;gap:80px;}
+  .column {display:flex;flex-direction:column;gap:10px;}
+  .title {font-weight:700;margin-bottom:8px;text-align:center;}
+  .item {padding:6px 10px;border:2px solid #888;border-radius:8px;background:#fff;cursor:pointer;user-select:none;text-align:center;min-width:210px;transition:background 0.15s, border-color 0.15s, transform 0.05s;}
+  .item:hover:not(.matched) {background:#eef5ff;}
+  .item.active {border-color:#0077ff;background:#e1edff;transform:scale(1.02);}
+  .item.matched {border-color:#35a535;background:#e4ffe4;cursor:default;}
+  .item.wrong {border-color:#d11;background:#ffe4e4;}
+  #lines {position:absolute;top:20px;left:0;pointer-events:none;}
+  .status {position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:14px;color:#444;}
+</style>
+</head>
+<body>
+<div class="game" id="game">
+  <svg id="lines"></svg>
+  <div class="column" id="leftCol"><div class="title">Meziprodukt</div></div>
+  <div class="column" id="rightCol"><div class="title">Enzym</div></div>
+  <div class="status" id="status">Spoj substrát s odpovídajícím enzymem.</div>
+</div>
+<script>
+const pairs=[{id:"1",left:"Glukóza",right:"Hexokináza"},{id:"2",left:"Glukóza-6-fosfát",right:"Fosfoglukózoizomeráza"},{id:"3",left:"Fruktóza-6-fosfát",right:"Fosfofruktokináza"},{id:"4",left:"Fruktóza-1,6-bisfosfát",right:"Aldoláza"},{id:"5",left:"Dihydroxyacetonfosfát",right:"Triosefosfát isomeráza"},{id:"6",left:"Glyceraldehyd-3-fosfát",right:"Glyceraldehyd-3-fosfát dehydrogenáza"},{id:"7",left:"1,3-bisfosfoglycerát",right:"Fosfoglycerátkináza"},{id:"8",left:"3-fosfoglycerát",right:"Fosfoglycerátmutáza"},{id:"9",left:"2-fosfoglycerát",right:"Enoláza"},{id:"10",left:"Fosfoenolpyruvát",right:"Pyruvátkináza"}];
+
+const leftCol=document.getElementById("leftCol"),rightCol=document.getElementById("rightCol"),statusEl=document.getElementById("status"),game=document.getElementById("game"),svg=document.getElementById("lines");
+let activeLeft=null,activeRight=null,matchedCount=0;
+
+pairs.forEach(p=>{let d=document.createElement("div");d.className="item left";d.dataset.id=p.id;d.textContent=p.left;leftCol.appendChild(d)});
+[...pairs].sort(()=>Math.random()-0.5).forEach(p=>{let d=document.createElement("div");d.className="item right";d.dataset.id=p.id;d.textContent=p.right;rightCol.appendChild(d)});
+
+function clearActive(){document.querySelectorAll(".item.active").forEach(e=>e.classList.remove("active"));activeLeft=null;activeRight=null}
+function setStatus(t){statusEl.textContent=t}
+function drawLine(l,r){const g=game.getBoundingClientRect(),L=l.getBoundingClientRect(),R=r.getBoundingClientRect(),x1=L.right-g.left,y1=L.top+L.height/2-g.top,x2=R.left-g.left,y2=R.top+R.height/2-g.top;svg.setAttribute("width",g.width);svg.setAttribute("height",g.height);const ln=document.createElementNS("http://www.w3.org/2000/svg","line");ln.setAttribute("x1",x1);ln.setAttribute("y1",y1);ln.setAttribute("x2",x2);ln.setAttribute("y2",y2);ln.setAttribute("stroke","#35a535");ln.setAttribute("stroke-width","3");svg.appendChild(ln)}
+function checkMatch(){if(!activeLeft||!activeRight)return;if(activeLeft.dataset.id===activeRight.dataset.id){activeLeft.classList.add("matched");activeRight.classList.add("matched");drawLine(activeLeft,activeRight);matchedCount++;setStatus("Správně! Spojeno: "+matchedCount+" / "+pairs.length);clearActive();if(matchedCount===pairs.length)setStatus("Hotovo! Celou glykolýzu máš správně 💪")}else{activeLeft.classList.add("wrong");activeRight.classList.add("wrong");setStatus("Špatná dvojice, zkus to znovu.");setTimeout(()=>{activeLeft.classList.remove("wrong");activeRight.classList.remove("wrong");clearActive();setStatus("Zkus spojit správný pár.")},600)}}
+
+document.addEventListener("click",e=>{const it=e.target.closest(".item");if(!it||it.classList.contains("matched"))return;if(it.classList.contains("left")){if(activeLeft===it){it.classList.remove("active");activeLeft=null;return}clearActive();activeLeft=it;it.classList.add("active")}else if(it.classList.contains("right")){if(!activeLeft&&!activeRight){activeRight=it;it.classList.add("active");return}if(activeRight===it){it.classList.remove("active");activeRight=null;return}activeRight=it;it.classList.add("active")}if(activeLeft&&activeRight)checkMatch()});
+</script>
+</body>
+</html>
